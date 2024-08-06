@@ -3,10 +3,9 @@ import {useState, useEffect} from 'react'
 import './App.css';
 
 
-
-
 function App() {
   const [moviesList, setMoviesList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
    GetMovies()
@@ -27,14 +26,25 @@ function App() {
     }
   }
 
+  const handleSearchQuery = (e) => {
+    setSearchQuery(e.target.value);
+  }
 
+  const filteredMovies = moviesList.filter(movie =>
+    movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   return (
     <div className="App">
       <h1>Movies:</h1>
+      <input
+        type='text'
+        placeholder='Movie Search'
+        value={searchQuery}
+        onChange={handleSearchQuery}/>
       {/* start conditional render */}
-      {moviesList.length > 0 ? (
-        moviesList.map((movie) => (
+      {filteredMovies.length > 0 ? (
+        filteredMovies.map((movie) => (
           <div key = {movie.id}>
             <h5>{movie.title}</h5>
             </div>
