@@ -6,6 +6,7 @@ import './App.css';
 function App() {
   const [moviesList, setMoviesList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [addedMovies, setAddedMovies] = useState('');
 
   useEffect(() => {
    GetMovies()
@@ -30,6 +31,18 @@ function App() {
     setSearchQuery(e.target.value);
   }
 
+  const handleAddMovies = (e) => {
+    setAddedMovies(e.target.value);
+    addMoviesFetch(addedMovies)
+  }
+
+  const addMoviesFetch = async () => {
+    try {
+      const request = await fetch(`http://localhost:8080/movies`);
+        
+    }
+  }
+
   const filteredMovies = moviesList.filter(movie =>
     movie.title.toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -42,6 +55,12 @@ function App() {
         placeholder='Movie Search'
         value={searchQuery}
         onChange={handleSearchQuery}/>
+      <input
+        type='text'
+        placeholder='Add movies'
+        value={addedMovies}
+        onChange={handleAddMovies}/>
+
       {/* start conditional render */}
       {filteredMovies.length > 0 ? (
         filteredMovies.map((movie) => (
